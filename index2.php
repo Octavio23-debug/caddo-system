@@ -1136,6 +1136,7 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
                             <option value="No funciona el acceso">No funciona acceso</option>
                             <option value="Sin equipo">Sin equipo</option>
                             <option value="No funciona CF">No funciona CF</option>
+                            <option value="FALLA ALARMA">FALLLA ALARMA</option>
 
                             
 
