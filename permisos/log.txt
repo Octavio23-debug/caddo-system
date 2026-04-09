@@ -1,0 +1,44 @@
+ID recibido: undefined
+Permiso con ID undefined eliminado
+ID recibido: undefined
+Permiso con ID undefined eliminado
+ID recibido: 7
+Permiso con ID 7 eliminado
+ID recibido: undefined
+Permiso con ID undefined eliminado
+ID recibido: undefined
+Permiso con ID undefined eliminado
+ID recibido: 7
+Permiso con ID 7 eliminado
+ID recibido: 8
+Permiso con ID 8 eliminado
+ID recibido: 13
+Permiso con ID 13 eliminado
+ID recibido: 12
+Permiso con ID 12 eliminado
+ID recibido: 23
+Permiso con ID 23 eliminado
+ID recibido: 22
+Permiso con ID 22 eliminado
+ID recibido: 
+ID recibido: 
+ID recibido: 
+ID recibido: 24
+ID recibido: 24
+Permiso con ID 24 eliminado
+ID recibido: 10
+Permiso con ID 10 eliminado
+ID recibido: 3
+Permiso con ID 3 eliminado
+ID recibido: 9
+Permiso con ID 9 eliminado
+ID recibido: 11
+Permiso con ID 11 eliminado
+ID recibido: 14
+Permiso con ID 14 eliminado
+ID recibido: 15
+Permiso con ID 15 eliminado
+ID recibido: 19
+Permiso con ID 19 eliminado
+ID recibido: 1
+Permiso con ID 1 eliminado

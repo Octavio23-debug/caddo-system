@@ -1,0 +1,19 @@
+/* Estilo para la ventana emergente */
+.custom-swal-popup {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 80vh;  /* Limitar la altura para evitar que sea demasiado grande */
+}
+
+/* Título de la ventana */
+.custom-swal-title {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+/* Contenedor del contenido HTML */
+.custom-swal-html {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-top: 10px;
+}

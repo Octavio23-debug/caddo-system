@@ -1,0 +1,82 @@
+.clickable-message {
+    cursor: pointer;
+    color: #dc3545;
+    text-decoration: none;
+}
+.clickable-message:hover {
+    text-decoration: none;
+    font-weight: bold;
+}
+.text-success {
+    color: green;
+    font-weight: bold;
+}
+
+.normal-update-message {
+    margin: 5px 0;
+    cursor: pointer;
+
+}
+.text-success {
+    color: #28a745; /* Verde */
+}
+
+.text-danger {
+    color: #dc3545; /* Rojo */
+}
+
+.observacion-message {
+    font-weight: bold;
+    color: #28a745; /* Verde */
+}
+
+.error-message {
+    font-weight: bold;
+    color: #dc3545; /* Rojo */
+}
+
+.normal-update-message {
+    font-weight: bold;
+    color: #28a745; /* Verde */
+}
+.clickable-message {
+    cursor: pointer;
+    color: #dc3545;
+    text-decoration: none;
+}
+.clickable-message:hover {
+    text-decoration: none;
+    font-weight: bold;
+}
+.text-success {
+    color: green;
+    font-weight: bold;
+}
+
+.normal-update-message {
+    margin: 5px 0;
+    cursor: pointer;
+
+}
+.text-success {
+    color: #28a745; /* Verde */
+}
+
+.text-danger {
+    color: #dc3545; /* Rojo */
+}
+
+.observacion-message {
+    font-weight: bold;
+    color: #28a745; /* Verde */
+}
+
+.error-message {
+    font-weight: bold;
+    color: #dc3545; /* Rojo */
+}
+
+.normal-update-message {
+    font-weight: bold;
+    color: #28a745; /* Verde */
+}

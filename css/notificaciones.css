@@ -1,0 +1,26 @@
+.status-indicator.bg-danger {
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.dropdown-item.nueva {
+    font-weight: bold;
+}
+.status-indicator.bg-danger {
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.dropdown-item.nueva {
+    font-weight: bold;
+}

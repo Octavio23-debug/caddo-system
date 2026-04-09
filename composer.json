@@ -1,0 +1,12 @@
+{
+    "name": "accesos/caddo",
+    "description": "composer require phpmailer/phpmailer",
+    "type": "project",
+    "license": "Apache-2.0",
+    "minimum-stability": "stable",
+    "require": {
+        "pusher/pusher-php-server": "^7.2",
+        "cboden/ratchet": "^0.4.4",
+        "phpmailer/phpmailer": "^7.0"
+    }
+}

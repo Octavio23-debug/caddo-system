@@ -1,0 +1,29 @@
+/* Estilos generales para el modo oscuro */
+body.dark-mode {
+    background-color: #121212;
+    color: #e1e1e1;
+}
+
+body.dark-mode .card {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+body.dark-mode .alert {
+    background-color: #333;
+    color: #f8f9fa;
+}
+
+body.dark-mode .form-label {
+    color: #e1e1e1;
+}
+
+body.dark-mode .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+body.dark-mode .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
