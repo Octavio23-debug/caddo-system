@@ -5,7 +5,7 @@ $mensaje = $data['mensaje'] ?? '';
 $imagen = $data['imagen'] ?? null;
 
 $token = "8777509613:AAH91lCOSUn_-_pC8_Rjt1EfoFz-mOBVEjM";
-$chat_id = "7573530840";
+$chat_id = "-5239631795";
 
 if ($imagen) {
     $img = str_replace('data:image/png;base64,', '', $imagen);

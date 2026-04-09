@@ -29,6 +29,8 @@ $nomCorto = isset($_SESSION['nom_corto']) ? $_SESSION['nom_corto'] : '';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -1133,8 +1135,9 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
                             <option value="Sin luz y sin señal">Sin luz y sin señal</option>
                             <option value="No funciona el acceso">No funciona acceso</option>
                             <option value="Sin equipo">Sin equipo</option>
-                            <option value="No abre exclusa">No abre exclusa</option>
+                            <option value="No funciona CF">No funciona CF</option>
 
+                            
 
                         </select>
                     </div>
@@ -1472,43 +1475,81 @@ if (nuevoEstado === 'Normal') {
                                     <canvas id="myPieChart" width="100%" height="100%"></canvas>
 
                                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                                            <script>
-                                            let myPieChart;
+                                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+                                        <script>
+                                        let myPieChart;
+                                        const ctx = document.getElementById("myPieChart").getContext("2d");
+
+                                        // Crear el chart una vez
+                                        myPieChart = new Chart(ctx, {
+                                            type: 'doughnut',
+                                            data: {
+                                                labels: ['Cajeras = 2', 'Cajeras = 1', 'Total en Cubriendo'],
+                                                datasets: [{
+                                                    data: [0, 0, 0], // valores iniciales
+                                                    backgroundColor: ['#28a745', '#ffc107', '#dc3545'],
+                                                    hoverBackgroundColor: ['#218838', '#e0a800', '#c82333'],
+                                                    hoverBorderColor: 'rgba(234, 236, 244, 1)'
+                                                }]
+                                            },
+                                            options: {
+                                                maintainAspectRatio: false,
+                                                cutout: '80%',
+                                                plugins: {
+                                                    legend: { position: 'bottom' }
+                                                },
+                                                onClick(evt) {
+                                                    const points = this.getElementsAtEventForMode(
+                                                        evt,
+                                                        'nearest',
+                                                        { intersect: true },
+                                                        false
+                                                    );
+                                                    if (points.length) {
+                                                        const index = points[0].index;
+                                                        // Solo el segmento rojo (índice 2)
+                                                        if (index === 2) {
+                                                            window.location.href = 'cubriendo.php';
+                                                        }
+                                                        else{
+                                                            window.location.href = 'sucursales.php';
+                                                        }
+                                                    }
+                                                },
+                                                onHover(evt) {
+                                                    const points = this.getElementsAtEventForMode(
+                                                        evt,
+                                                        'nearest',
+                                                        { intersect: true },
+                                                        false
+                                                    );
+                                                    this.canvas.style.cursor = points.length ? 'pointer' : 'default';
+                                                }
+                                            }
+                                        });
+
+                                        // Función para actualizar los datos dinámicamente
+                                        function actualizarDatos() {
                                             fetch('data.php')
                                             .then(res => res.json())
                                             .then(data => {
-                                                const ctx = document.getElementById("myPieChart").getContext("2d");
-
-                                                // Eliminar gráfica previa si existe
-                                                if (myPieChart) {
-                                                myPieChart.destroy();
-                                                }
-
-                                                myPieChart = new Chart(ctx, {
-                                                type: 'doughnut',
-                                                data: {
-                                                    labels: ['Cajeras = 2', 'Cajeras = 1', 'Total en Cubriendo'],
-                                                    datasets: [{
-                                                    data: [data.dos_cajeras, data.una_cajera, data.cubriendo],
-                                                    backgroundColor: ['#28a745', '#ffc107', '#dc3545'], // Verde, Amarillo, Rojo
-                                                    hoverBackgroundColor: ['#218838', '#e0a800', '#c82333'],
-                                                    hoverBorderColor: 'rgba(234, 236, 244, 1)'
-                                                    }]
-                                                },
-                                                options: {
-                                                    maintainAspectRatio: false,
-                                                    cutoutPercentage: 80,
-                                                    plugins: {
-                                                    legend: {
-                                                        position: 'bottom'
-                                                    }
-                                                    }
-                                                }
-                                                });
+                                                myPieChart.data.datasets[0].data = [
+                                                    data.dos_cajeras,
+                                                    data.una_cajera,
+                                                    data.cubriendo
+                                                ];
+                                                myPieChart.update();
                                             })
                                             .catch(err => console.error("Error al cargar datos:", err));
-                                            </script>                                   
+                                        }
+
+                                        // Llamada inicial
+                                        actualizarDatos();
+
+                                        // Opcional: actualizar cada 10 segundos
+                                        // setInterval(actualizarDatos, 10000);
+                                        </script>                                                                            
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
