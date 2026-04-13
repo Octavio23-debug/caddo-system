@@ -9,47 +9,47 @@
     // ===============================
 function enviarCorreo($asunto, $mensaje, $destinatarios) {
 
-    $mail = new PHPMailer(true);
+    // $mail = new PHPMailer(true);
 
-    try {
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'monitoreocaddo@gmail.com';
-        $mail->Password   = 'kipy pbpl ckmx azvh';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+    // try {
+    //     $mail->isSMTP();
+    //     $mail->Host       = 'smtp.gmail.com';
+    //     $mail->SMTPAuth   = true;
+    //     $mail->Username   = 'monitoreocaddo@gmail.com';
+    //     $mail->Password   = 'kipy pbpl ckmx azvh';
+    //     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    //     $mail->Port       = 587;
 
-        $mail->setFrom('monitoreocaddo@gmail.com', 'Sistema de Notificaciones');
-        $mail->addReplyTo('monitoreocaddo@gmail.com', 'Monitoreo');
+    //     $mail->setFrom('monitoreocaddo@gmail.com', 'Sistema de Notificaciones');
+    //     $mail->addReplyTo('monitoreocaddo@gmail.com', 'Monitoreo');
 
-        $mail->CharSet = 'UTF-8';
-        $mail->Encoding = 'base64';
+    //     $mail->CharSet = 'UTF-8';
+    //     $mail->Encoding = 'base64';
 
-        foreach ($destinatarios as $correo) {
+    //     foreach ($destinatarios as $correo) {
 
-            $mail->clearAddresses();
-            $mail->addAddress($correo);
+    //         $mail->clearAddresses();
+    //         $mail->addAddress($correo);
 
-            $mail->isHTML(true);
-            $mail->Subject = $asunto;
-            $mail->Body    = $mensaje;
-            $mail->AltBody = strip_tags($mensaje);
+    //         $mail->isHTML(true);
+    //         $mail->Subject = $asunto;
+    //         $mail->Body    = $mensaje;
+    //         $mail->AltBody = strip_tags($mensaje);
 
-            // 🔥 CORREGIDO
-            $mail->MessageID = '<' . uniqid() . '@gmail.com>';
-            $mail->XMailer   = 'PHP/' . phpversion();
+    //         // 🔥 CORREGIDO
+    //         $mail->MessageID = '<' . uniqid() . '@gmail.com>';
+    //         $mail->XMailer   = 'PHP/' . phpversion();
 
-            $mail->send();
-            sleep(1); // 🔥 anti bloqueo
-        }
+    //         $mail->send();
+    //         sleep(1); // 🔥 anti bloqueo
+    //     }
 
         return true;
 
-    } catch (Exception $e) {
-        error_log("Error al enviar correo: " . $mail->ErrorInfo);
-        return false;
-    }
+    // } catch (Exception $e) {
+    //     error_log("Error al enviar correo: " . $mail->ErrorInfo);
+    //     return false;
+    // }
 }
 
     // ===============================

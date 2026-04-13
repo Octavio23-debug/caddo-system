@@ -1,13 +1,25 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['user_id'])) {
-    header('Location: index.php'); // Redirige al login si no hay sesión activa
+    header('Location: index.php');
     exit;
 }
-$userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'Invitado';
-$nomCorto = isset($_SESSION['nom_corto']) ? $_SESSION['nom_corto'] : '';
-?>
 
+// 🔹 Datos de sesión
+$username  = isset($_SESSION['username']) ? $_SESSION['username'] : '';
+$userName  = isset($_SESSION['nombre']) ? $_SESSION['nombre'] : 'Invitado';
+$nomCorto  = isset($_SESSION['nom_corto']) ? $_SESSION['nom_corto'] : '';
+
+// 🔹 Validar si puede ver botón de usuarios
+$puedeVerUsuarios = in_array($username, ['diego.garcia', 'janeth.sanchez']);
+
+?>
+<?php
+$claseCard = $puedeVerUsuarios 
+    ? 'col-xl-2 col-md-4 col-6'   // 🔹 más pequeños (más en una fila)
+    : 'col-xl-3 col-md-6 col-12'; // 🔹 normales (4 por fila)
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -251,6 +263,7 @@ $nomCorto = isset($_SESSION['nom_corto']) ? $_SESSION['nom_corto'] : '';
                     </div>
                 </div>-->
             </li>
+
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -1014,8 +1027,8 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
 
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-    <a href="sucursales.php" class="text-decoration-none">
+<div class="<?= $claseCard ?> mb-4">
+        <a href="sucursales.php" class="text-decoration-none">
         <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -1032,8 +1045,8 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
     </a>
 </div>
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-    <a href="recargas.php" class="text-decoration-none">
+<div class="<?= $claseCard ?> mb-4">
+        <a href="recargas.php" class="text-decoration-none">
         <div class="card border-left-danger shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -1049,11 +1062,31 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
         </div>
     </a>
 </div>
+<?php if ($puedeVerUsuarios): ?>
+<div class="<?= $claseCard ?> mb-4">
+        <a href="usuarios.php" class="text-decoration-none">
+        <div class="card border-left-dark shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="fs-1 font-weight-bold text-dark text-uppercase mb-12">
+                            Usuarios
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+<?php endif; ?>
 
 
                         <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                        <a href="pendientes.php" class="text-decoration-none">
+<div class="<?= $claseCard ?> mb-4">
+                           <a href="pendientes.php" class="text-decoration-none">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -1137,6 +1170,7 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
                             <option value="Sin equipo">Sin equipo</option>
                             <option value="No funciona CF">No funciona CF</option>
                             <option value="FALLA ALARMA">FALLLA ALARMA</option>
+                            <option value="Sin Cámaras">Sin Cámaras</option>
 
                             
 
