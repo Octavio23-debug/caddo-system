@@ -25,25 +25,22 @@ if (isset($_GET['error'])) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <title>SB Admin 2 - Agenda</title>
 
-    <!-- Custom fonts for this template -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template -->
+    <!-- estilos -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
@@ -403,6 +400,9 @@ if (isset($_GET['error'])) {
                     <i class="fa fa-info-circle" aria-hidden="true"></i> Pendientes Finalizados
                 </button>
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -426,51 +426,67 @@ document.getElementById('addPendienteBtn').addEventListener('click', function ()
             }).join('');
 
             // Mostrar el formulario con las sucursales y los usuarios
-            Swal.fire({
-                title: 'Agregar Nuevo Pendiente',
-                html: `
-                    <form id="addPendienteForm">
-                        <div class="form-group text-left">
-                            <label for="id_sucursal">Sucursal:</label>
-                            <select id="id_sucursal" class="form-control swal2-input">
-                                <option value="">Selecciona una Sucursal</option>
-                                ${sucursalOptions}  <!-- Aquí se insertan las sucursales -->
-                            </select>
-                        </div>
-                        <div class="form-group text-left">
-                            <label for="id_usuario">Usuario:</label>
-                            <select id="id_usuario" class="form-control swal2-input">
-                                <option value="">Selecciona un Usuario</option>
-                                ${usuarioOptions}  <!-- Aquí se insertan los usuarios -->
-                            </select>
-                        </div>
-                        <div class="form-group text-left">
-                            <label for="pendiente">Pendiente:</label>
-                            <input type="text" id="pendiente" class="form-control swal2-input" placeholder="Descripción del pendiente">
-                        </div>
-                        <div class="form-group text-left">
-                            <label for="fecha">Fecha:</label>
-                            <input type="date" id="fecha" class="form-control swal2-input">
-                        </div>
-                    </form>
-                `,
-                showCancelButton: true,
-                confirmButtonText: 'Guardar',
-                cancelButtonText: 'Cancelar',
-                preConfirm: () => {
-                    const id_sucursal = document.getElementById('id_sucursal').value;
-                    const id_usuario = document.getElementById('id_usuario').value;  // Obtener el ID del usuario
-                    const pendiente = document.getElementById('pendiente').value.trim();
-                    const fecha = document.getElementById('fecha').value.trim();
+           Swal.fire({
+    title: 'Agregar Nuevo Pendiente',
+    html: `
+        <form id="addPendienteForm">
+            <div class="form-group text-left">
+                <label for="id_sucursal">Sucursal:</label>
+                <select id="id_sucursal" class="form-control">
+                    <option value="">Selecciona una Sucursal</option>
+                    ${sucursalOptions}
+                </select>
+            </div>
+            <div class="form-group text-left">
+                <label for="id_usuario">Usuario:</label>
+                <select id="id_usuario" class="form-control">
+                    <option value="">Selecciona un Usuario</option>
+                    ${usuarioOptions}
+                </select>
+            </div>
+            <div class="form-group text-left">
+                <label for="pendiente">Pendiente:</label>
+                <input type="text" id="pendiente" class="form-control swal2-input">
+            </div>
+            <div class="form-group text-left">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" class="form-control swal2-input">
+            </div>
+        </form>
+    `,
+    showCancelButton: true,
+    confirmButtonText: 'Guardar',
+    cancelButtonText: 'Cancelar',
 
-                    if (!id_sucursal || !id_usuario || !pendiente || !fecha) {
-                        Swal.showValidationMessage('Todos los campos son obligatorios');
-                        return false;
-                    }
+    didOpen: () => {
+        // 🔥 Inicializar Select2 AQUÍ
+        $('#id_sucursal').select2({
+            placeholder: "Buscar sucursal...",
+            width: '100%',
+            dropdownParent: $('.swal2-popup') // 👈 MUY IMPORTANTE
+        });
 
-                    return { id_sucursal, id_usuario, pendiente, fecha };
-                }
-            }).then((result) => {
+        $('#id_usuario').select2({
+            placeholder: "Buscar usuario...",
+            width: '100%',
+            dropdownParent: $('.swal2-popup')
+        });
+    },
+
+    preConfirm: () => {
+        const id_sucursal = $('#id_sucursal').val();
+        const id_usuario = $('#id_usuario').val();
+        const pendiente = document.getElementById('pendiente').value.trim();
+        const fecha = document.getElementById('fecha').value.trim();
+
+        if (!id_sucursal || !id_usuario || !pendiente || !fecha) {
+            Swal.showValidationMessage('Todos los campos son obligatorios');
+            return false;
+        }
+
+        return { id_sucursal, id_usuario, pendiente, fecha };
+    }
+}).then((result) => {
     if (result.isConfirmed) {
         const data = result.value;
 
@@ -660,7 +676,6 @@ echo "<tr><td colspan='5'>No hay registros.</td></tr>";
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->

@@ -40,9 +40,7 @@ $claseCard = $puedeVerUsuarios
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -1129,7 +1127,9 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
                 </div>
             </div>
         </div>
-        
+
+        <!-- jQuery (si no lo tienes) -->
+
         <!-- Card Body -->
         <div class="card-body">
             <div class="chart-area">
@@ -1190,28 +1190,40 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
         const formContainer = document.getElementById('formContainer');
         formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
     });
+function cargarSucursales1() {
+    fetch('suc/obtener_sucursales_fallas.php')
+        .then(response => response.json())
+        .then(data => {
+            if (Array.isArray(data.sucursales)) {
+                const sucursalSelect = $('#sucursalName');
 
-    function cargarSucursales1() {
-        fetch('suc/obtener_sucursales_fallas.php')
-            .then(response => response.json())
-            .then(data => {
-                if (Array.isArray(data.sucursales)) {
-                    const sucursalSelect = document.getElementById('sucursalName');
-                    sucursalSelect.innerHTML = ''; // Limpiar antes de cargar
-                    data.sucursales.forEach(sucursal => {
-                        const option = document.createElement('option');
-                        option.value = sucursal.id;
-                        option.textContent = sucursal.nombre;
-                        sucursalSelect.appendChild(option);
-                    });
-                } else {
-                    console.error('La respuesta no contiene un array de sucursales');
+                // 🔹 destruir select2 si ya existe (evita errores)
+                if ($.fn.select2 && sucursalSelect.hasClass("select2-hidden-accessible")) {
+                    sucursalSelect.select2('destroy');
                 }
-            })
-            .catch(error => {
-                console.error('Error al obtener las sucursales:', error);
-            });
-    }
+
+                sucursalSelect.empty();
+
+                data.sucursales.forEach(sucursal => {
+                    sucursalSelect.append(
+                        `<option value="${sucursal.id}">${sucursal.nombre}</option>`
+                    );
+                });
+
+                // 🔥 AQUÍ SE ACTIVA EL BUSCADOR
+                sucursalSelect.select2({
+                    placeholder: "Buscar sucursal...",
+                    width: '100%'
+                });
+
+            } else {
+                console.error('La respuesta no contiene un array de sucursales');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener las sucursales:', error);
+        });
+}
 
     document.addEventListener('DOMContentLoaded', () => {
         cargarSucursales1();
@@ -1807,7 +1819,14 @@ if (nuevoEstado === 'Normal') {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
     // Escuchar el evento de clic en el botón
 
 // Llamar a esta función para cargar las sucursales en el select
@@ -1935,9 +1954,7 @@ Swal.fire({
 
 
 </script>
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
