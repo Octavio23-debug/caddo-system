@@ -896,6 +896,11 @@ cargarNotificaciones();
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Inicio</h1>
+
+                                                <a href="policia.php" id="btn-policia" 
+                        class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">
+                        <i class="fas fa-exclamation-triangle fa-sm text-white-50"></i> SIN POLICIA
+                        </a>
                         <a href="#" id="btn-entregar-turno" 
                         class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
                         <i class="fas fa-paper-plane fa-sm text-white-50"></i> Entregar Turno
@@ -908,6 +913,36 @@ cargarNotificaciones();
 document.getElementById('btn-entregar-turno').addEventListener('click', async (e) => {
     e.preventDefault();
 
+    // 🔹 Obtener usuarios desde tu backend (ajusta la ruta)
+ const resUsuarios = await fetch(`obtener_usuarios.php?actual=${encodeURIComponent(usuarioActual)}`);
+ const usuarios = await resUsuarios.json();
+
+    // 🔹 Convertir a opciones
+    let opciones = {};
+    usuarios.forEach(u => {
+        opciones[u.id] = u.nombre;
+    });
+
+    // 🔹 Mostrar Swal con select
+    const { value: usuarioEntrega } = await Swal.fire({
+        title: '¿A quién entregas el turno?',
+        input: 'select',
+        inputOptions: opciones,
+        inputPlaceholder: 'Selecciona un usuario',
+        showCancelButton: true,
+        confirmButtonText: 'Continuar',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Debes seleccionar un usuario';
+            }
+        }
+    });
+
+    if (!usuarioEntrega) return;
+
+    const nombreEntrega = opciones[usuarioEntrega];
+
+    // 🔥 LOADING
     Swal.fire({
         title: "Entregando turno...",
         text: "Generando reporte",
@@ -916,7 +951,7 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
     });
 
     try {
-        // 🔹 Datos
+        // 🔹 Tus fetch normales
         const pendientesRes = await fetch('js/obtener_pendientes.php');
         const pendientes = await pendientesRes.json();
 
@@ -926,10 +961,11 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
 
         const sucursalesFalla = sucursales.filter(s => s.estado !== 'Normal');
 
-        // 🧠 MENSAJE PRO CON USUARIO
+        // 🧠 MENSAJE
         let mensaje = `<b>📋 ENTREGA DE TURNO</b>\n\n`;
 
-        mensaje += `<b>👤 Responsable:</b> ${usuarioActual}\n`;
+        mensaje += `<b>👤 Entrega:</b> ${usuarioActual}\n`;
+        mensaje += `<b>👥 Recibe:</b> ${nombreEntrega}\n`;
         mensaje += `<b>🕒 Fecha:</b> ${new Date().toLocaleString()}\n\n`;
 
         mensaje += `<b>📌 Pendientes:</b>\n`;
@@ -959,15 +995,12 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
             });
         }
 
-        // ✍️ FIRMA
         mensaje += `\n━━━━━━━━━━━━━━\n`;
-        mensaje += `📝 <i>Turno entregado por ${usuarioActual}</i>`;
+        mensaje += `📝 <i>Turno entregado por ${usuarioActual} a ${nombreEntrega}</i>`;
 
-        // 📸 CAPTURA
         const canvas = await html2canvas(document.body);
         const imagenBase64 = canvas.toDataURL("image/png");
 
-        // 🔹 ENVIAR
         await fetch('enviar_telegram.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -991,7 +1024,8 @@ document.getElementById('btn-entregar-turno').addEventListener('click', async (e
             text: "No se pudo enviar"
         });
     }
-});</script>
+});
+</script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script>
     async function capturarDashboard() {
